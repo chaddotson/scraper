@@ -7,10 +7,6 @@ import Tkinter, Tkconstants, tkFileDialog
 from web_scraper import scrap_files_from_webpage
 
 
-
-#I built on Yuri's idea, but needed to make a few changes to get things working:
-
-
 logger = getLogger('')
 
 
@@ -35,8 +31,14 @@ class ScraperFrame(Tkinter.Frame):
 
         Tkinter.Frame.__init__(self, root)
 
+        self._thread = None
+
         self._initializeUI()
         self._createCustomLogger()
+
+    def __del__(self):
+        if self._thread is not None:
+            self._thread.terminate()
 
     def _initializeUI(self):
 
@@ -121,14 +123,7 @@ class ScraperFrame(Tkinter.Frame):
         #scrap_files_from_webpage(self._destination_directory.get(), self._source_url.get(), self._selected_xpath_pattern.get())
 
 
-
-
-def on_closing():
-    root.destroy()
-
-
-if __name__ == '__main__':
-
+def main():
     basicConfig(level=INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(levelno)s - %(message)s')
 
     root = Tkinter.Tk()
@@ -137,3 +132,7 @@ if __name__ == '__main__':
     ScraperFrame(root).pack()
 
     root.mainloop()
+
+
+if __name__ == '__main__':
+    main()

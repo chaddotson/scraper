@@ -23,18 +23,19 @@ def get_args():
 
 
 def main():
+    try:
+        args = get_args()
 
-    args = get_args()
+        basicConfig(level=INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(levelno)s - %(message)s')
 
-    basicConfig(level=INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(levelno)s - %(message)s')
+        if args.verbose:
+            logger.setLevel(DEBUG)
 
-    if args.verbose:
-        logger.setLevel(DEBUG)
+        scrap_files_from_webpage(args.destination, args.url, args.xpath)
 
-    scrap_files_from_webpage(args.destination, args.url, args.xpath)
+    except KeyboardInterrupt:
+            logger.info("Cancelling...")
+
 
 if __name__ == "__main__":
-    try:
-        main()
-    except KeyboardInterrupt:
-        logger.info("Cancelling...")
+    main()
