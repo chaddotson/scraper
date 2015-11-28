@@ -3,7 +3,7 @@ from setuptools import setup
 with open("requirements.txt", "r'") as f:
     install_reqs = f.readlines()
 
-setup(name='Scraper',
+setup(name='scraper',
       version='1.0',
       packages=['web_scraper', 'bin'],
       install_requires=install_reqs,
