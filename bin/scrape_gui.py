@@ -25,22 +25,24 @@ class WidgetLogger(Handler):
         self.widget.config(state='disabled')
 
 
-
 class ScraperFrame(Tkinter.Frame):
     def __init__(self, root):
 
         Tkinter.Frame.__init__(self, root)
 
+        self._parent = root
+
+        # TODO: switch out for process???
         self._thread = None
 
-        self._initializeUI()
-        self._createCustomLogger()
+        self._initialize_ui()
+        self._create_custom_logger()
 
     def __del__(self):
         if self._thread is not None:
             self._thread.terminate()
 
-    def _initializeUI(self):
+    def _initialize_ui(self):
 
         row = 0
 
@@ -92,12 +94,10 @@ class ScraperFrame(Tkinter.Frame):
         self._log_area = Tkinter.Text(self, {"height": 10})
         self._log_area.grid(row=row, columnspan=3)
 
-    def _createCustomLogger(self):
+    def _create_custom_logger(self):
 
         logger.addHandler(WidgetLogger(self._log_area))
         logger.info("starting")
-
-
 
     def _on_click_directory_selector(self):
 
@@ -105,7 +105,7 @@ class ScraperFrame(Tkinter.Frame):
         options = {}
         options['initialdir'] = 'C:\\'
         options['mustexist'] = False
-        options['parent'] = root
+        options['parent'] = self._parent
         options['title'] = 'Select a folder'
 
         destination_directory = tkFileDialog.askdirectory(**options)
@@ -118,9 +118,6 @@ class ScraperFrame(Tkinter.Frame):
 
         self._thread = Thread(target=scrap_files_from_webpage, args=(self._destination_directory.get(), self._source_url.get(), self._selected_xpath_pattern.get()))
         self._thread.start()
-
-
-        #scrap_files_from_webpage(self._destination_directory.get(), self._source_url.get(), self._selected_xpath_pattern.get())
 
 
 def main():
