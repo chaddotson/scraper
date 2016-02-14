@@ -1,2 +1,0 @@
-# scraper
-Web scraping tools
