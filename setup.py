@@ -1,7 +1,11 @@
+from os.path import dirname, join
 from setuptools import setup
 
 with open("requirements.txt", "r'") as f:
     install_reqs = f.readlines()
+
+def read(fname):
+    return open(join(dirname(__file__), fname)).read()
 
 setup(name='scraper',
       version='0.1.0',
